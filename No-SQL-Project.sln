@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "No-SQL-Project", "No-SQL-Project\No-SQL-Project.csproj", "{1BF31AE7-5820-4C75-A6B5-68584050F2E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BF31AE7-5820-4C75-A6B5-68584050F2E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF31AE7-5820-4C75-A6B5-68584050F2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF31AE7-5820-4C75-A6B5-68584050F2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF31AE7-5820-4C75-A6B5-68584050F2E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

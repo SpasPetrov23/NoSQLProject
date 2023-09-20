@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
+using No_SQL_Project.GraphQL;
 using No_SQL_Project.Models;
 using No_SQL_Project.Services;
 
@@ -19,6 +21,17 @@ builder.Services.Configure<MoviesDatabaseSettings>(config.GetSection("MoviesData
 builder.Services.AddScoped<MoviesService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped(sp => sp.GetRequiredService<IOptions<MoviesDatabaseSettings>>().Value);
+
+// Register IMongoDatabase as a scoped service
+builder.Services.AddScoped<IMongoDatabase>(provider =>
+{
+    IConfiguration config = provider.GetRequiredService<IConfiguration>();
+    string connectionString = config.GetSection("MoviesDatabase:ConnectionString").Value;
+    IMongoClient client = new MongoClient(connectionString);
+    string databaseName = config.GetSection("MoviesDatabase:DatabaseName").Value;
+    return client.GetDatabase(databaseName);
+});
+
 builder.Services.AddIdentityMongoDbProvider<User>(
     identityOptions =>
     {
@@ -49,6 +62,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services
+    .AddGraphQLServer()
+    .RegisterService<MoviesService>()
+    .AddQueryType<QueryType>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -73,6 +91,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 WebApplication app = builder.Build();
+
+app.MapGraphQL();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

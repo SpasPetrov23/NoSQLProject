@@ -5,4 +5,6 @@ public enum ErrorMessages
     INVALID_EMAIL_OR_PASSWORD,
     INVALID_EMAIL,
     INVALID_PASSWORD,
+    
+    MOVIE_NOT_FOUND,
 }

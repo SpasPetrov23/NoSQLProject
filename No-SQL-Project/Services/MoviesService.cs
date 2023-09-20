@@ -11,32 +11,31 @@ public class MoviesService
 
     public MoviesService(IOptions<MoviesDatabaseSettings> movieDbSettigs)
     {
-        var mongoClient = new MongoClient(
+        MongoClient mongoClient = new MongoClient(
             movieDbSettigs.Value.ConnectionString);
 
-        var mongoDatabase = mongoClient.GetDatabase(
+        IMongoDatabase mongoDatabase = mongoClient.GetDatabase(
             movieDbSettigs.Value.DatabaseName);
-        
+
         _moviesCollection = mongoDatabase.GetCollection<Movie>(movieDbSettigs.Value.MoviesCollectionName);
-        
     }
 
     public async Task<List<Movie>> GetMoviesAsync()
-    { 
-        var result = await _moviesCollection.Find(_ => true).ToListAsync();
+    {
+        List<Movie> result = await _moviesCollection.Find(_ => true).ToListAsync();
 
         return result;
     }
 
     public async Task<Movie?> GetMovieAsync(string id)
-    { 
-        var result = await _moviesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    {
+        Movie result = await _moviesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         return result;
     }
 
     public async Task CreateMovieAsync(Movie newMovie)
-    { 
+    {
         await _moviesCollection.InsertOneAsync(newMovie);
     }
 
@@ -49,5 +48,4 @@ public class MoviesService
     {
         await _moviesCollection.DeleteOneAsync(x => x.Id == id);
     }
-        
 }

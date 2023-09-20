@@ -31,14 +31,11 @@ public class MoviesController : ControllerBase
     {
         Movie movie = await _moviesService.GetMovieAsync(id);
 
-        if (movie is null)
-        {
-            return NotFound();
-        }
+        if (movie is null) return NotFound();
 
         return Ok(movie);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Create(Movie newMovie)
     {
@@ -46,16 +43,13 @@ public class MoviesController : ControllerBase
 
         return Ok(newMovie);
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> Update(string id, Movie inputMovie)
     {
-        var movie = await _moviesService.GetMovieAsync(id);
+        Movie movie = await _moviesService.GetMovieAsync(id);
 
-        if (movie is null)
-        {
-            return NotFound();
-        }
+        if (movie is null) return NotFound();
 
         inputMovie.Id = movie.Id;
 
@@ -63,16 +57,13 @@ public class MoviesController : ControllerBase
 
         return NoContent();
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
-        var movie = await _moviesService.GetMovieAsync(id);
+        Movie movie = await _moviesService.GetMovieAsync(id);
 
-        if (movie is null)
-        {
-            return NotFound();
-        }
+        if (movie is null) return NotFound();
 
         await _moviesService.DeleteAsync(id);
 
